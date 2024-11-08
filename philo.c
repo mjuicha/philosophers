@@ -6,7 +6,7 @@
 /*   By: mjuicha <mjuicha@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/03 17:02:38 by mjuicha           #+#    #+#             */
-/*   Updated: 2024/11/04 18:03:20 by mjuicha          ###   ########.fr       */
+/*   Updated: 2024/11/08 19:29:00 by mjuicha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,11 +84,42 @@ int     is_valid_input(int ac, char **av, t_philo *philo)
     
     return (1);
 }
+t_info  *create_philos(t_philo *philo)
+{
+    t_info *info = malloc(sizeof(t_info));
+    if (!info)
+        return (NULL);
+    info->forks = malloc(sizeof(pthread_mutex_t) * philo->philo_nb);
+    info->threads = malloc(sizeof(pthread_t) * philo->philo_nb);
+    if (!info->threads || !info->forks)
+        return (NULL);
+    int i = 0;
+    pthread_t thread;
+    while (i < philo->philo_nb)
+    {
+        info->threads[i] = thread;
+        pthread_mutex_init(&info->forks[i], NULL);
+        i++;
+    }
+    return (info);
+}
+
+void    *philo_lanch(void *arg)
+{
+    t_philo *philo = (t_philo *)arg;
+    int i = 0;
+    philo->info = create_philos(philo);
+    if (!philo->info)
+        printf("\x1b[31mPhilosophers Error\033[0m\n");
+    printf("\x1b[32mPhilosophers created\033[0m\n");
+    return (NULL);
+}
 
 void    ft_philo(t_philo *philo)
 {
-    pthread_create(&philo->philo, NULL, &philo_routine, philo);
-    pthread_join(philo->philo, NULL);
+    philo_lanch(philo);
+    // pthread_create(&thread, NULL, philo_routine, philo);
+    // pthread_join(thread, NULL);   
 }
 int main(int ac, char **av)
 {

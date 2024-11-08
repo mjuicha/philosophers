@@ -6,7 +6,7 @@
 /*   By: mjuicha <mjuicha@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/03 17:03:06 by mjuicha           #+#    #+#             */
-/*   Updated: 2024/11/04 18:02:50 by mjuicha          ###   ########.fr       */
+/*   Updated: 2024/11/08 19:23:34 by mjuicha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,16 @@
 #include <stdlib.h>
 
 int     ft_atoi(const char *str);
+
+typedef struct  s_info
+{
+    pthread_mutex_t     *forks;
+    pthread_t           *threads;
+}            t_info;
+
 typedef struct  s_philo
 {
-    pthread_t       philo;
+    t_info          *info;
     int             philo_nb;
     int             t_die;
     int             t_eat;
