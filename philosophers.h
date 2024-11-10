@@ -6,7 +6,7 @@
 /*   By: mjuicha <mjuicha@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/03 17:03:06 by mjuicha           #+#    #+#             */
-/*   Updated: 2024/11/09 20:51:31 by mjuicha          ###   ########.fr       */
+/*   Updated: 2024/11/10 18:49:29 by mjuicha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ typedef struct  s_philo
     int             philo_nb;
     int             is_time;
     int             is_died;
+    int             dead_flag;
     long            start_time;
     long            last_meal;
     pthread_mutex_t mutex;
@@ -58,4 +59,3 @@ typedef struct  s_phil
     t_philo         *philoss;
     t_info          *info;
 }            t_phil;
-

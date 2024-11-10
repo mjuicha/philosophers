@@ -6,7 +6,7 @@
 /*   By: mjuicha <mjuicha@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/03 17:02:38 by mjuicha           #+#    #+#             */
-/*   Updated: 2024/11/09 20:49:32 by mjuicha          ###   ########.fr       */
+/*   Updated: 2024/11/10 19:43:28 by mjuicha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ t_info  *create_philos(t_philo *philo)
         return (NULL);
     philo->is_time = 0;
     philo->is_died = 0;
+    philo->dead_flag = 0;
     int i = 0;
     pthread_t thread;
     while (i < philo->philo_nb)
@@ -137,8 +138,11 @@ int    left_fork(t_phil *philos)
 }
 void    philo_msg(t_phil *philos, char *msg)
 {
+    pthread_mutex_lock(&philos->philoss->mutex);
     printf("%ld %d %s\n", get_time() - philos->philoss->start_time, philos->fake_id, msg);
+    pthread_mutex_unlock(&philos->philoss->mutex);
 }
+
 void    take_fork(t_phil *philos)
 {
     pthread_mutex_lock(&philos->info->forks[philos->right]);
@@ -168,8 +172,12 @@ void    down_fork(t_phil *philos)
 void    eating(t_phil *philos)
 {
     philo_msg(philos, "is eating");
+    philos->philoss->dead_flag = 1;
+    pthread_mutex_lock(&philos->philoss->mutex);
     philos->philoss->last_meal = get_time();
+    pthread_mutex_unlock(&philos->philoss->mutex);
     usleep(philos->philoss->t_eat * 1000);
+    // printf("last_meal = %ld\n", philos->philoss->last_meal);
 }
 
 void    sleeping(t_phil *philos)
@@ -194,17 +202,24 @@ void    *philoso(void *arg)
     return (NULL);
 }
 
+
 void    *check_death(void *arg)
 {
     t_phil *philos = (t_phil *)arg;
-    while (!philos->philoss->is_died)
+    
+    while (!philos->philoss->is_died && philos->philoss->dead_flag)
     {
-        if (get_time() - philos->philoss->last_meal > philos->philoss->t_die)
+		// printf("\x1b[32;1mPLUS: %ld PLUS: %ld \n\x1b[35;1mDIFF: %ld\033[0m\n", philos->philoss->last_meal + philos->philoss->t_die, get_time(), (philos->philoss->last_meal + philos->philoss->t_die) - get_time());
+        printf("\x1b[32;1m[%ld]\033[0m\n", get_time() - philos->philoss->last_meal);
+        if ((philos->philoss->t_die < (get_time() - philos->philoss->last_meal)))
         {
-            philo_msg(philos, "died");
             philos->philoss->is_died = 1;
+            philo_msg(philos, "died");
+            pthread_mutex_lock(&philos->philoss->mutex);
+            exit(0);
             break;
         }
+        usleep(1000);
     }
     return (NULL);
 }
@@ -212,6 +227,7 @@ void    *check_death(void *arg)
 void    ft_philo(t_philo *philo)
 {
     philo_lanch(philo);
+    pthread_t monitor;
     int i = 0;
     t_phil  *philos = malloc(sizeof(t_phil) * philo->philo_nb);
     while (i < philo->philo_nb)
@@ -222,7 +238,8 @@ void    ft_philo(t_philo *philo)
         philos[i].philoss = philo;
         philos[i].nb_philo = philo->philo_nb;
         pthread_create(&philo->info->threads[i], NULL, &philoso, (void *)&philos[i]);
-        pthread_create(&philo->info->threads[i], NULL, &check_death, (void *)&philos[i]);
+        pthread_create(&monitor, NULL, &check_death, (void *)&philos[i]);
+        pthread_detach(monitor);
         i++;
     }
     i = 0;
@@ -231,6 +248,15 @@ void    ft_philo(t_philo *philo)
         pthread_join(philo->info->threads[i], NULL);
         i++;
     }
+    // for monitor
+    pthread_join(monitor, NULL);
+    i = 0;
+    while (i < philo->philo_nb)
+    {
+        pthread_mutex_destroy(&philo->info->forks[i]);
+        i++;
+    }
+    
 }
 int main(int ac, char **av)
 {
