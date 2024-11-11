@@ -6,7 +6,7 @@
 /*   By: mjuicha <mjuicha@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/03 17:02:38 by mjuicha           #+#    #+#             */
-/*   Updated: 2024/11/10 19:43:28 by mjuicha          ###   ########.fr       */
+/*   Updated: 2024/11/11 14:25:39 by mjuicha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +121,7 @@ void    philo_lanch(void *arg)
     pthread_mutex_t n_mutex;
     philo->mutex = n_mutex;
     pthread_mutex_init(&philo->mutex, NULL);
+    pthread_mutex_init(&philo->mutex2, NULL);
     if (!philo->info)
         printf("Philosophers Error\n");
 }
@@ -155,7 +156,9 @@ void    take_fork(t_phil *philos)
     philo_msg(philos, "has taken a fork");
     if (philos->philoss->philo_nb == 1)
     {
-        usleep(philos->philoss->t_die * 1000);
+        sleep(1);
+        philo_msg(philos, "died");
+        exit(0);
         philos->philoss->is_died = 1;
     }
     philo_msg(philos, "has taken a fork");
@@ -172,10 +175,9 @@ void    down_fork(t_phil *philos)
 void    eating(t_phil *philos)
 {
     philo_msg(philos, "is eating");
+    pthread_mutex_lock(&philos->philoss->mutex2);
     philos->philoss->dead_flag = 1;
-    pthread_mutex_lock(&philos->philoss->mutex);
     philos->philoss->last_meal = get_time();
-    pthread_mutex_unlock(&philos->philoss->mutex);
     usleep(philos->philoss->t_eat * 1000);
     // printf("last_meal = %ld\n", philos->philoss->last_meal);
 }
@@ -184,6 +186,7 @@ void    sleeping(t_phil *philos)
 {
     philo_msg(philos, "is sleeping");
     usleep(philos->philoss->t_sleep * 1000);
+    pthread_mutex_unlock(&philos->philoss->mutex2);
     philo_msg(philos, "is thinking");
 }
 void    *philoso(void *arg)
@@ -210,7 +213,6 @@ void    *check_death(void *arg)
     while (!philos->philoss->is_died && philos->philoss->dead_flag)
     {
 		// printf("\x1b[32;1mPLUS: %ld PLUS: %ld \n\x1b[35;1mDIFF: %ld\033[0m\n", philos->philoss->last_meal + philos->philoss->t_die, get_time(), (philos->philoss->last_meal + philos->philoss->t_die) - get_time());
-        printf("\x1b[32;1m[%ld]\033[0m\n", get_time() - philos->philoss->last_meal);
         if ((philos->philoss->t_die < (get_time() - philos->philoss->last_meal)))
         {
             philos->philoss->is_died = 1;

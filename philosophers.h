@@ -6,7 +6,7 @@
 /*   By: mjuicha <mjuicha@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/03 17:03:06 by mjuicha           #+#    #+#             */
-/*   Updated: 2024/11/10 18:49:29 by mjuicha          ###   ########.fr       */
+/*   Updated: 2024/11/11 14:11:19 by mjuicha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ typedef struct  s_philo
     long            start_time;
     long            last_meal;
     pthread_mutex_t mutex;
+    pthread_mutex_t mutex2;
     int             t_die;
     int             t_eat;
     int             t_sleep;
