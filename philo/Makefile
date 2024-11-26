@@ -9,7 +9,7 @@ NAME = philo
 
 all: $(NAME)
 
-$(NAME): $(OBJ) philosophers.h
+$(NAME): $(OBJ) 
 	cc $(OBJ) -pthread -o $(NAME)
 
 clean: 
