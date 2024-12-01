@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atoi.c                                          :+:      :+:    :+:   */
+/*   ft_atoi_bonus.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mjuicha <mjuicha@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/02 19:42:09 by mjuicha           #+#    #+#             */
-/*   Updated: 2024/12/01 05:44:19 by mjuicha          ###   ########.fr       */
+/*   Created: 2024/11/29 05:46:58 by mjuicha           #+#    #+#             */
+/*   Updated: 2024/11/29 05:47:25 by mjuicha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "philo_bonus.h"
 
 static int	isoverflow(long long int check, long long int res)
 {

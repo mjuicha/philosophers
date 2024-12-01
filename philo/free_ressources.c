@@ -1,42 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo.c                                            :+:      :+:    :+:   */
+/*   free_ressources.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mjuicha <mjuicha@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/21 13:19:32 by mjuicha           #+#    #+#             */
-/*   Updated: 2024/12/01 05:43:38 by mjuicha          ###   ########.fr       */
+/*   Created: 2024/11/28 00:58:42 by mjuicha           #+#    #+#             */
+/*   Updated: 2024/12/01 05:44:35 by mjuicha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	ft_philo(t_philo *philo)
+void	free_ressources(t_philo *philo)
 {
-	t_data	*data;
+	int	i;
 
+	i = 0;
 	if (!philo)
 		return ;
-	if (init_threads(philo) == FAILURE)
-		return (free(philo));
-	init_mutex(philo);
-	data = get_data(philo);
-	if (!data)
-		return (free_ressources(philo));
-	run(philo, data);
-	join(philo);
-}
-
-int	main(int ac, char **av)
-{
-	t_philo	*philo;
-
-	philo = malloc(sizeof(t_philo));
-	if (!philo)
-		return (1);
-	if (!is_valid_input(ac, av, philo))
-		return (free(philo), 1);
-	ft_philo(philo);
-	return (0);
+	pthread_mutex_destroy(&(philo->_meal));
+	pthread_mutex_destroy(&(philo->_print));
+	pthread_mutex_destroy(&(philo->_death));
+	pthread_mutex_destroy(&(philo->_finish_eat));
+	while (i < philo->philo_nb)
+		pthread_mutex_destroy(&(philo->forks[i++]));
+	free(philo->monitor_death);
+	if (philo->nb_of_meals != -1)
+		free(philo->monitor_meal);
+	free(philo->forks);
+	free(philo->thread);
+	free(philo);
 }

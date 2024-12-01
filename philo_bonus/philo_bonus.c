@@ -1,31 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo.c                                            :+:      :+:    :+:   */
+/*   philo_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mjuicha <mjuicha@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/21 13:19:32 by mjuicha           #+#    #+#             */
-/*   Updated: 2024/12/01 05:43:38 by mjuicha          ###   ########.fr       */
+/*   Created: 2024/11/29 05:44:28 by mjuicha           #+#    #+#             */
+/*   Updated: 2024/12/01 06:23:05 by mjuicha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "philo_bonus.h"
 
 void	ft_philo(t_philo *philo)
 {
-	t_data	*data;
+	int	i;
 
 	if (!philo)
 		return ;
-	if (init_threads(philo) == FAILURE)
+	if (init_semaphores(philo) == FAILURE)
 		return (free(philo));
-	init_mutex(philo);
-	data = get_data(philo);
-	if (!data)
-		return (free_ressources(philo));
-	run(philo, data);
-	join(philo);
+	run(philo);
+	i = 0;
+	while (i < philo->philo_nb)
+		waitpid(philo->pid[i++], NULL, 0);
+	free_ressources(philo);
 }
 
 int	main(int ac, char **av)

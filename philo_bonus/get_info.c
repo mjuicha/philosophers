@@ -5,12 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mjuicha <mjuicha@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/21 13:25:19 by mjuicha           #+#    #+#             */
-/*   Updated: 2024/12/01 05:54:27 by mjuicha          ###   ########.fr       */
+/*   Created: 2024/11/29 05:45:10 by mjuicha           #+#    #+#             */
+/*   Updated: 2024/12/01 05:57:31 by mjuicha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "philo_bonus.h"
 
 int	is_space(char c)
 {
