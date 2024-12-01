@@ -6,7 +6,7 @@
 /*   By: mjuicha <mjuicha@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 05:31:02 by mjuicha           #+#    #+#             */
-/*   Updated: 2024/12/01 18:55:27 by mjuicha          ###   ########.fr       */
+/*   Updated: 2024/12/01 19:56:40 by mjuicha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@ void	eat_(t_data *data)
 {
 	sem_wait(data->philo->print);
 	data->last_meal = get_time();
-	printf("%ld %d is eating\n", get_time() - data->philo->start_time, data->id);
+	printf("%ld %d is eating\n", get_time() - data->philo->start_time,
+		data->id);
 	data->ate++;
 	sem_post(data->philo->print);
 	if (data->ate == data->philo->nb_of_meals)

@@ -6,7 +6,7 @@
 /*   By: mjuicha <mjuicha@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 05:26:07 by mjuicha           #+#    #+#             */
-/*   Updated: 2024/12/01 19:14:29 by mjuicha          ###   ########.fr       */
+/*   Updated: 2024/12/01 19:57:04 by mjuicha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	*philoo(t_data *data)
 {
 	if (data->id % 2 == 0)
-        usleep(10);
+		usleep(10);
 	pthread_create(&(data->philo->thread), NULL, (void *)death, data);
 	pthread_detach(data->philo->thread);
 	life_cycle(data);
