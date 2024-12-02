@@ -6,7 +6,7 @@
 /*   By: mjuicha <mjuicha@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 00:49:25 by mjuicha           #+#    #+#             */
-/*   Updated: 2024/12/01 05:45:20 by mjuicha          ###   ########.fr       */
+/*   Updated: 2024/12/02 13:59:21 by mjuicha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ t_data	*get_data(t_philo *philo)
 	if (philo->philo_nb == 1)
 	{
 		philo->stop = 1;
+		free(philo->monitor_meal);
 		philo->nb_of_meals = -1;
 	}
 	while (i < philo->philo_nb)

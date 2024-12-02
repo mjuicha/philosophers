@@ -6,7 +6,7 @@
 /*   By: mjuicha <mjuicha@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 01:05:42 by mjuicha           #+#    #+#             */
-/*   Updated: 2024/12/01 05:44:50 by mjuicha          ###   ########.fr       */
+/*   Updated: 2024/12/02 16:15:57 by mjuicha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 
 long	get_time(void)
 {
-	struct timeval	tv;
-	long			time;
+	struct timeval	time;
+	long			c_time;
 
-	gettimeofday(&tv, NULL);
-	time = tv.tv_sec * 1000 + tv.tv_usec / 1000;
-	return (time);
+	gettimeofday(&time, NULL);
+	c_time = time.tv_sec * 1000 + time.tv_usec / 1000;
+	return (c_time);
 }
 
 long	time_(t_philo *philo)

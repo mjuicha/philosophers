@@ -6,7 +6,7 @@
 /*   By: mjuicha <mjuicha@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 05:26:07 by mjuicha           #+#    #+#             */
-/*   Updated: 2024/12/01 19:57:04 by mjuicha          ###   ########.fr       */
+/*   Updated: 2024/12/02 19:22:53 by mjuicha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,13 @@ void	*philoo(t_data *data)
 	return (NULL);
 }
 
-void	run(t_philo *philo)
+int	run(t_philo *philo)
 {
 	int		i;
 	int		status;
 
 	if (!get_data(philo))
-		return ;
+		return (FAILURE);
 	i = 0;
 	while (i < philo->philo_nb)
 	{
@@ -37,7 +37,7 @@ void	run(t_philo *philo)
 		if (philo->pid[i] == 0)
 			philoo(&(philo->data[i]));
 		if (philo->pid[i] < 0)
-			return ;
+			return (FAILURE);
 		i++;
 	}
 	while (waitpid(-1, &status, 0) > 0)
@@ -48,4 +48,5 @@ void	run(t_philo *philo)
 			break ;
 		}
 	}
+	return (SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: mjuicha <mjuicha@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 04:10:20 by mjuicha           #+#    #+#             */
-/*   Updated: 2024/12/01 06:15:12 by mjuicha          ###   ########.fr       */
+/*   Updated: 2024/12/02 19:22:41 by mjuicha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int		is_valid_input(int ac, char **av, t_philo *philo);
 int		init_semaphores(t_philo *philo);
 t_data	*get_data(t_philo *philo);
 void	free_ressources(t_philo *philo);
-void	run(t_philo *philo);
+int		run(t_philo *philo);
 void	destroy_sem(t_philo *philo);
 void	life_cycle(t_data *data);
 void	eat_(t_data *data);

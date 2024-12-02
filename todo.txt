@@ -1,8 +1,0 @@
-# PHILO BONUS
-
-% TODO PHILO BONUS
-    - check unlink
-    ! add dead func
-    - destroy
-
-    x infinite loop
