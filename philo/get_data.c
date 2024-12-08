@@ -6,7 +6,7 @@
 /*   By: mjuicha <mjuicha@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 00:49:25 by mjuicha           #+#    #+#             */
-/*   Updated: 2024/12/02 13:59:21 by mjuicha          ###   ########.fr       */
+/*   Updated: 2024/12/07 18:52:54 by mjuicha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ t_data	setup_data(t_philo *philo, int i)
 	data.last_meal = philo->start_time;
 	data.right_fork = i;
 	data.philo = philo;
-	data.still_eat = 1;
+	data.look = 1;
 	data.ate = 0;
 	if (i == 0)
 		data.left_fork = philo->philo_nb - 1;
@@ -41,13 +41,11 @@ t_data	*get_data(t_philo *philo)
 	philo->data = data;
 	philo->start_time = get_time();
 	philo->is_died = 0;
-	philo->stop = 0;
+	philo->finish = -1;
+	if (philo->nb_of_meals != -1)
+		philo->finish = philo->philo_nb;
 	if (philo->philo_nb == 1)
-	{
-		philo->stop = 1;
-		free(philo->monitor_meal);
 		philo->nb_of_meals = -1;
-	}
 	while (i < philo->philo_nb)
 	{
 		data[i] = setup_data(philo, i);

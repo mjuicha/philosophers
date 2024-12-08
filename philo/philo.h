@@ -6,7 +6,7 @@
 /*   By: mjuicha <mjuicha@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/21 13:18:10 by mjuicha           #+#    #+#             */
-/*   Updated: 2024/12/02 18:16:45 by mjuicha          ###   ########.fr       */
+/*   Updated: 2024/12/08 20:22:03 by mjuicha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,20 +26,17 @@ typedef struct s_data	t_data;
 
 typedef struct s_philo
 {
-	pthread_t			*monitor_death;
-	pthread_t			*monitor_meal;
+	pthread_t			monitor_death;
 	pthread_t			*thread;
-	pthread_mutex_t		*forks;
-	pthread_mutex_t		_print;
-	pthread_mutex_t		_meal;
-	pthread_mutex_t		_death;
-	pthread_mutex_t		_finish_eat;
+	pthread_mutex_t		*fork;
+	pthread_mutex_t		lock;
+	pthread_mutex_t		print;
 	int					philo_nb;
 	int					t_die;
 	int					t_eat;
 	int					is_died;
 	int					t_sleep;
-	int					stop;
+	int					finish;
 	int					nb_of_meals;
 	long				start_time;
 	t_data				*data;
@@ -51,8 +48,8 @@ typedef struct s_data
 	int			id;
 	int			right_fork;
 	int			left_fork;
-	int			still_eat;
 	int			ate;
+	int			look;
 	t_philo		*philo;
 }				t_data;
 
@@ -66,16 +63,17 @@ void	run(t_philo *philo, t_data *data);
 void	join(t_philo *philo);
 void	*philoo(t_data *data);
 void	*death(void *arg);
-void	*eat(void *arg);
 void	eat_(t_data *data);
 void	sleep_(t_data *data);
 void	think_(t_data *data);
 long	time_(t_philo *philo);
 long	get_time(void);
-void	ft_usleep(long duration);
+void	ft_usleep(long duration, t_data *data);
 void	take_right_forks(t_data *data);
 void	take_left_forks(t_data *data);
 void	put_forks(t_data *data);
-void	philo_msg(t_data *data, char *msg);
+int		philo_msg(t_data *data, char *msg);
 void	free_ressources(t_philo *philo);
+int		check_death(t_data *data);
+int		died_msg(t_data *data);
 #endif

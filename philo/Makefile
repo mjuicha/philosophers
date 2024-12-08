@@ -1,5 +1,5 @@
 SRCS = philo.c ft_calloc.c ft_atoi.c death_action.c free_ressources.c init.c get_time.c philo_action.c run.c \
-	eat_action.c get_data.c philo_msg.c forks.c get_info.c join.c philo_routine.c 
+	get_data.c philo_msg.c forks.c get_info.c join.c philo_routine.c 
 
 OBJS = $(addprefix $(OBJDIR)/, $(SRCS:.c=.o))
 
@@ -8,7 +8,7 @@ OBJDIR = obj
 
 CC = cc
 RM = rm -rf
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS =  -Wall -Wextra -Werror -fsanitize=thread -g
 THREAD = -pthread
 
 $(OBJDIR)/%.o: %.c philo.h

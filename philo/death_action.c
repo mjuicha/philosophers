@@ -6,30 +6,49 @@
 /*   By: mjuicha <mjuicha@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 01:10:22 by mjuicha           #+#    #+#             */
-/*   Updated: 2024/12/02 18:04:38 by mjuicha          ###   ########.fr       */
+/*   Updated: 2024/12/08 20:05:39 by mjuicha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
+int	check_died(t_data *data, int i)
+{
+	pthread_mutex_lock(&(data[i].philo->lock));
+	if ((get_time() - data[i].last_meal) >= data[i].philo->t_die
+		&& data[i].look)
+	{
+		data[i].philo->is_died = 1;
+		pthread_mutex_unlock(&(data[i].philo->lock));
+		died_msg(&data[i]);
+		return (SUCCESS);
+	}
+	if (data[i].philo->finish == 0)
+	{
+		pthread_mutex_unlock(&(data[i].philo->lock));
+		return (SUCCESS);
+	}
+	pthread_mutex_unlock(&(data[i].philo->lock));
+	return (FAILURE);
+}
+
 void	*death(void *arg)
 {
 	t_data	*data;
+	int		i;
 
 	data = (t_data *)arg;
-	while (data->philo->is_died == 0 && data->philo->stop == 0)
+	while (1)
 	{
-		if ((data->last_meal + data->philo->t_die) < get_time()
-			&& data->philo->philo_nb != 1)
+		i = 0;
+		if (data[i].philo->philo_nb == 1)
+			break ;
+		while (i < data->philo->philo_nb)
 		{
-			pthread_mutex_lock(&(data->philo->_death));
-			data->philo->is_died = 1;
-			pthread_mutex_unlock(&(data->philo->_death));
-			pthread_mutex_lock(&(data->philo->_print));
-			printf("%ld %d died\n", time_(data->philo), data->id);
-			pthread_mutex_unlock(&(data->philo->_print));
+			if (check_died(data, i) == SUCCESS)
+				return (NULL);
+			i++;
 		}
-		usleep(500);
 	}
 	return (NULL);
 }

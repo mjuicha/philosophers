@@ -6,7 +6,7 @@
 /*   By: mjuicha <mjuicha@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 04:10:20 by mjuicha           #+#    #+#             */
-/*   Updated: 2024/12/02 19:22:41 by mjuicha          ###   ########.fr       */
+/*   Updated: 2024/12/08 20:30:30 by mjuicha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ typedef struct s_philo
 	pthread_t			thread;
 	sem_t				*forks;
 	sem_t				*print;
-	sem_t				*death;
+	sem_t				*lock;
 }						t_philo;
 
 int		ft_atoi(const char *str);

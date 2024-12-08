@@ -6,7 +6,7 @@
 /*   By: mjuicha <mjuicha@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 05:29:30 by mjuicha           #+#    #+#             */
-/*   Updated: 2024/12/01 19:56:20 by mjuicha          ###   ########.fr       */
+/*   Updated: 2024/12/08 20:41:57 by mjuicha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,13 @@ void	*death(t_data *data)
 	{
 		if ((data->last_meal + data->philo->t_die) < get_time())
 		{
-			sem_wait(data->philo->death);
+			sem_wait(data->philo->lock);
 			sem_wait(data->philo->print);
 			data->philo->is_died = 1;
 			printf("%ld %d died\n", get_time() - data->philo->start_time,
 				data->id);
 			exit(1);
 		}
-		usleep(500);
 	}
 	return (NULL);
 }
